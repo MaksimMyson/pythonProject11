@@ -1,13 +1,64 @@
-goods = ['Банан ', 23.34, 'Кавун', 45.56, 'Картопля ', 15.99, 'Помiдор', 57.78]
-users = ['petro@gmail.com', '3333']
-admins = ['maksim@admin.com', 'Maks']  # @admin.com
+goods = ['Банан (Зелений)', 23.34, 'Полуниця', 45.56, 'Картопля молода', 15.99, 'Морква мита', 57.78]
+users = ['oleg@gmail.com', '1111']
+admins = ['maks@admin.com', 'qwerty'] #@admin.com
 basket = []
 admin_email_pattern = '@admin.com'
 
 is_login_true = False
 is_admin = False
+
+def load_data():
+    global goods, users, admins
+
+    try:
+        with open('users.txt', 'r') as users_file:
+            for line in users_file:
+                login, password = line.strip().split()
+                users.append(login)
+                users.append(password)
+    except FileNotFoundError:
+        users = []
+
+
+    try:
+        with open('admins.txt', 'r') as admins_file:
+            for line in admins_file:
+                email, name = line.strip().split()
+                admins.append(email)
+                admins.append(name)
+    except FileNotFoundError:
+        admins = []
+
+
+    try:
+        with open('goods.txt', 'r') as goods_file:
+            for line in goods_file:
+                name, price = line.strip().split()
+                goods.append(name)
+                goods.append(float(price))
+    except FileNotFoundError:
+        goods = []
+
+def save_data():
+
+    with open('users.txt', 'w') as users_file:
+        for i in range(0, len(users), 2):
+            users_file.write(f'{users[i]} {users[i + 1]}\n')
+
+
+    with open('admins.txt', 'w') as admins_file:
+        for i in range(0, len(admins), 2):
+            admins_file.write(f'{admins[i]} {admins[i + 1]}\n')
+
+
+    with open('goods.txt', 'w') as goods_file:
+        for i in range(0, len(goods), 2):
+            goods_file.write(f'{goods[i]} {goods[i + 1]}\n')
+
+load_data()
+
 try:
-    # Авторизація
+
     while True:
         while True:
             login = input("Ведіть логін: ")
@@ -42,7 +93,7 @@ try:
                     print("Ви успішно зареєструвались")
                     print("Ви можете увійти в систему")
 
-                    # Робота системи
+
         while True:
             if is_admin == True:
                 print('Ви ввійшли як адміністратор')
